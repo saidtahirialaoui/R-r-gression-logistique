@@ -1,0 +1,20 @@
+library(readxl)
+Base <- read_excel("C:/Users/windows/Downloads/Base.xlsx")
+str(Base)
+library(logistf)
+
+regression <- logistf(formula = SATISFACTION ~ SPRINT + PORTAIL + MNS + FAUTE, data = Base, pl = FALSE, firth = FALSE)
+summary(regression)
+exp(coef(regression))
+predictions <- predict(regression, type = "response")
+predicted_class <- ifelse(predictions > 0.5, 1, 0)
+table(regression$y, predicted_class)
+if (!requireNamespace("ResourceSelection", quietly = TRUE)) {
+  install.packages("ResourceSelection")
+}
+library(ResourceSelection)
+data <- read_excel("C:/Users/windows/Downloads/Base.xlsx")
+Base <- logistf(data = data, SATISFACTION ~ SPRINT + PORTAIL + MNS + FAUTE, firth = TRUE, pl = FALSE)
+data$predicted_prob <- predict(Base, type = "response")
+hl_test <- hoslem.test(data$SATISFACTION, data$predicted_prob, g = 10)
+print(hl_test)
