@@ -1,1 +1,1 @@
-# l'impact du risque operationnel sur l'experience cleints
+# L'impact du risque opérationnel sur l'expérience client : base de données et code du logiciel R
